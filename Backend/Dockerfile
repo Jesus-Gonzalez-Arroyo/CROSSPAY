@@ -5,7 +5,7 @@ FROM node:20 AS builder
 WORKDIR /app
 
 # Copia archivos esenciales
-COPY src/package.json srcpackage-lock.json ./
+COPY src/package.json src/package-lock.json ./
 RUN npm install
 
 # Copia el resto del código
