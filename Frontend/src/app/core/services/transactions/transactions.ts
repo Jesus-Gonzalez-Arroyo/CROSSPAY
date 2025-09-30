@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Transactions {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://crosspay.onrender.com/api';
 
   constructor(private http: HttpClient) { }
 

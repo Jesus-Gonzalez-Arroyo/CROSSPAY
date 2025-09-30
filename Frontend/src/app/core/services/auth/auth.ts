@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class Auth {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://crosspay.onrender.com/api';
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   
   // Observable que otros componentes pueden suscribirse

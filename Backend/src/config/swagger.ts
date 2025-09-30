@@ -11,6 +11,10 @@ const swaggerDefinition = {
     {
       url: 'http://localhost:3000/api',
       description: 'Servidor local'
+    },
+    {
+      url: 'https://crosspay.onrender.com/api',
+      description: 'Servidor de producción'
     }
   ],
   components: {
