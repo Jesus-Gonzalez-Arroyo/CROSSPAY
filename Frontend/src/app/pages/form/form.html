@@ -1,0 +1,137 @@
+<div class="flex items-center justify-center min-h-[calc(100vh-130px)]">
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()"
+    class="w-[50%] max-w-4xl mx-auto p-6 bg-white shadow rounded grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Divisa -->
+    <div>
+      <label class="block font-semibold">Divisa</label>
+      <select formControlName="divisa" class="w-full border p-2 rounded">
+        <option value="COP">COP</option>
+        <option value="USD">USD</option>
+      </select>
+    </div>
+  
+    <!-- Monto -->
+    <div>
+      <label class="block font-semibold">Monto</label>
+      <input type="text" formControlName="amount" class="w-full border p-2 rounded"
+        [class.border-red-500]="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched" />
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('amount')?.errors?.['required'] && paymentForm.get('amount')?.touched">
+        El monto es obligatorio.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('amount')?.errors?.['min'] && paymentForm.get('amount')?.touched">
+        El monto debe ser mayor a 0.
+      </p>
+    </div>
+  
+    <!-- Descripción -->
+    <div class="md:col-span-2">
+      <label class="block font-semibold">Descripción</label>
+      <input type="text" formControlName="description" class="w-full border p-2 rounded" />
+    </div>
+  
+    <!-- Nombre -->
+    <div>
+      <label class="block font-semibold">Nombre</label>
+      <input type="text" formControlName="name_user" class="w-full border p-2 rounded"
+        [class.border-red-500]="paymentForm.get('name_user')?.invalid && paymentForm.get('name_user')?.touched"
+        placeholder="Nombre completo del titular" />
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('name_user')?.errors?.['required'] && paymentForm.get('name_user')?.touched">
+        El nombre es obligatorio.
+      </p>
+    </div>
+  
+    <!-- Tipo de documento -->
+    <div>
+      <label class="block font-semibold">Tipo de documento</label>
+      <select formControlName="type_document" class="w-full border p-2 rounded">
+        <option value="Cédula">Cédula</option>
+        <option value="Pasaporte">Pasaporte</option>
+      </select>
+    </div>
+  
+    <!-- Número de tarjeta -->
+    <div class="md:col-span-2">
+      <label class="block font-semibold">Número de tarjeta</label>
+      <input type="text" formControlName="num_card" class="w-full border p-2 rounded"
+        [class.border-red-500]="paymentForm.get('num_card')?.invalid && paymentForm.get('num_card')?.touched"
+        (input)="formatCardNumber($event)" placeholder="1234 5678 9012 3456" maxlength="23" />
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('num_card')?.errors?.['required'] && paymentForm.get('num_card')?.touched">
+        El número de tarjeta es obligatorio.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('num_card')?.errors?.['invalidCardNumber'] && paymentForm.get('num_card')?.touched">
+        El número de tarjeta solo debe contener números.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('num_card')?.errors?.['invalidCardLength'] && paymentForm.get('num_card')?.touched">
+        El número de tarjeta debe tener entre 13 y 19 dígitos.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('num_card')?.errors?.['invalidLuhn'] && paymentForm.get('num_card')?.touched">
+        El número de tarjeta no es válido.
+      </p>
+    </div>
+  
+    <!-- Fecha vencimiento -->
+    <div>
+      <label class="block font-semibold">Fecha de vencimiento</label>
+      <input type="text" formControlName="card_expiration_date" placeholder="MM/AA" class="w-full border p-2 rounded"
+        [class.border-red-500]="paymentForm.get('card_expiration_date')?.invalid && paymentForm.get('card_expiration_date')?.touched"
+        (input)="formatExpirationDate($event)" maxlength="5" />
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('card_expiration_date')?.errors?.['required'] && paymentForm.get('card_expiration_date')?.touched">
+        La fecha de vencimiento es obligatoria.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('card_expiration_date')?.errors?.['invalidExpirationFormat'] && paymentForm.get('card_expiration_date')?.touched">
+        Formato de fecha inválido. Use MM/AA.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('card_expiration_date')?.errors?.['invalidMonth'] && paymentForm.get('card_expiration_date')?.touched">
+        El mes debe estar entre 01 y 12.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('card_expiration_date')?.errors?.['cardExpired'] && paymentForm.get('card_expiration_date')?.touched">
+        La tarjeta ha expirado.
+      </p>
+    </div>
+  
+    <!-- Código de seguridad -->
+    <div>
+      <label class="block font-semibold">Código de seguridad</label>
+      <input type="text" formControlName="code_card" class="w-full border p-2 rounded"
+        [class.border-red-500]="paymentForm.get('code_card')?.invalid && paymentForm.get('code_card')?.touched"
+        (input)="formatSecurityCode($event)" placeholder="123" maxlength="4" />
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('code_card')?.errors?.['required'] && paymentForm.get('code_card')?.touched">
+        El código de seguridad es obligatorio.
+      </p>
+      <p class="text-red-500 text-sm mt-1"
+        *ngIf="paymentForm.get('code_card')?.errors?.['invalidSecurityCode'] && paymentForm.get('code_card')?.touched">
+        El código debe tener 3 o 4 dígitos.
+      </p>
+    </div>
+  
+    <!-- Botón -->
+    <div class="md:col-span-2">
+      <button type="submit" [disabled]="paymentForm.invalid || isLoading"
+        class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex justify-center items-center">
+        <ng-container *ngIf="isLoading; else btnText">
+          <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          Procesando...
+        </ng-container>
+        <ng-template #btnText>
+          Pagar
+        </ng-template>
+      </button>
+    </div>
+  </form>
+</div>
