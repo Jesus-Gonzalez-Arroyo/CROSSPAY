@@ -128,16 +128,6 @@ src/
 
 ---
 
-## ⚙️ Requisitos previos
-
-- Node.js `>=18`
-- Angular CLI instalado globalmente:  
-  ```bash
-  npm install -g @angular/cli
-  ```
-
----
-
 ## 🧪 Ejecución en desarrollo
 
 ### Clona el repositorio
@@ -156,7 +146,7 @@ npm install
 ### Ejecuta el proyecto
 
 ```bash
-ng serve
+npm run start
 ```
 
 Abre tu navegador en `http://localhost:4200`.
