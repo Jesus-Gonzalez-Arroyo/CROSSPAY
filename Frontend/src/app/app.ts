@@ -9,5 +9,5 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Frontend');
+  protected readonly title = signal('CrossPay');
 }
