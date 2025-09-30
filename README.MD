@@ -33,8 +33,8 @@ src/
 ### 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/tu_usuario/crosspay-api.git
-cd crosspay-api
+git clone https://github.com/Jesus-Gonzalez-Arroyo/CROSSPAY
+cd backend
 ```
 
 ### 2. Instala dependencias
@@ -143,8 +143,8 @@ src/
 ### Clona el repositorio
 
 ```bash
-git clone https://github.com/tuusuario/crosspay-frontend.git
-cd crosspay-frontend
+git clone https://github.com/Jesus-Gonzalez-Arroyo/CROSSPAY
+cd frontend
 ```
 
 ### Instala las dependencias
