@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://crosspay.onrender.com/api',
 };
