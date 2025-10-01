@@ -30,18 +30,21 @@ export class Form {
     });
   }
 
-  // Validador para número de tarjeta
+  /**
+   * Validador para número de tarjeta, verifica formato y longitud
+   * @param control AbstractControl
+   * @returns ValidationErrors | null
+   */
+  
   cardNumberValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     
     const cardNumber = control.value.replace(/\s/g, '');
     
-    // Verificar que solo contenga números
     if (!/^\d+$/.test(cardNumber)) {
       return { invalidCardNumber: true };
     }
     
-    // Verificar longitud según tipo de tarjeta
     if (cardNumber.length < 13 || cardNumber.length > 19) {
       return { invalidCardLength: true };
     }
@@ -49,7 +52,12 @@ export class Form {
     return null;
   }
 
-  // Validador para fecha de vencimiento
+  /**
+   * Valida la fecha de vencimiento de la tarjeta en formato MM/AA
+   * @param control AbstractControl
+   * @returns ValidationErrors | null
+   */
+
   expirationDateValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     
@@ -76,7 +84,12 @@ export class Form {
     return null;
   }
 
-  // Validador para código de seguridad
+  /**
+   * Valida el código de seguridad de la tarjeta (CVV/CVC)
+   * @param control AbstractControl
+   * @returns ValidationErrors | null
+   */
+
   securityCodeValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     
@@ -89,7 +102,11 @@ export class Form {
     return null;
   }
 
-  // Formatear número de tarjeta mientras se escribe
+  /**
+   * Formatea el número de tarjeta en bloques de 4 dígitos mientras se escribe
+   * @param event event del input
+   */
+
   formatCardNumber(event: any) {
     let value = event.target.value.replace(/\s/g, '');
     let formattedValue = value.replace(/(.{4})/g, '$1 ').trim();
@@ -99,7 +116,11 @@ export class Form {
     this.paymentForm.patchValue({ num_card: formattedValue });
   }
 
-  // Formatear fecha de vencimiento mientras se escribe
+  /**
+   * Formatea la fecha de vencimiento en formato MM/AA mientras se escribe
+   * @param event event del input
+   */
+  
   formatExpirationDate(event: any) {
     let value = event.target.value.replace(/\D/g, '');
     if (value.length >= 2) {
@@ -108,7 +129,11 @@ export class Form {
     this.paymentForm.patchValue({ card_expiration_date: value });
   }
 
-  // Permitir solo números en código de seguridad
+  /**
+   * Formatea el código de seguridad en el input mientras se escribe
+   * @param event event del input
+   */
+
   formatSecurityCode(event: any) {
     let value = event.target.value.replace(/\D/g, '');
     if (value.length > 4) {
@@ -116,6 +141,11 @@ export class Form {
     }
     this.paymentForm.patchValue({ code_card: value });
   }
+
+  /**
+   * Construye la fecha de la transacción en formato legible
+   * @returns string con la fecha formateada
+   */
 
   private buildTransactionDate(): string {
     const now = new Date();
@@ -135,6 +165,10 @@ export class Form {
     return `${day}-${month}-${year} ${hoursFormatted}:${minutes}:${seconds} ${ampm}`;
   }
 
+  /**
+   * Maneja el envío del formulario de pago, validando y utilizando el servicio Transactions
+   */
+
   onSubmit() {
     this.isLoading = true;
 
@@ -145,7 +179,6 @@ export class Form {
       return;
     }
 
-    // Construir fecha manualmente
     this.paymentForm.value.transaction_date = this.buildTransactionDate();
     this.transactionService.createTransaction(this.paymentForm.value).subscribe({
       next: () => {

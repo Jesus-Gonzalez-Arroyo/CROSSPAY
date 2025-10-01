@@ -24,6 +24,10 @@ export class Login {
     });
   }
 
+  /**
+   * Maneja el envío del formulario de login por medio del sevicio Auth
+   */
+
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;

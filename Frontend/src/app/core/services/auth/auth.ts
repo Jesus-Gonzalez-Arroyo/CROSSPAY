@@ -11,7 +11,6 @@ export class Auth {
   private apiUrl = environment.apiUrl;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   
-  // Observable que otros componentes pueden suscribirse
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient) { }

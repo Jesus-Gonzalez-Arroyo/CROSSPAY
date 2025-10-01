@@ -18,6 +18,10 @@ export class PanelAdmin implements OnInit {
 
   constructor(private transactionService: Transactions) { }
 
+  /**
+   * Inicializa el componente y carga las transacciones usando el servicio Transactions
+   */
+
   ngOnInit(): void {
     this.transactionService.getTransactions().subscribe({
       next: (data: TransactionResponse[]) => {
@@ -35,6 +39,12 @@ export class PanelAdmin implements OnInit {
       }
     });
   }
+
+  /**
+   * Formatea un monto
+   * @param amount monto a formatear
+   * @returns monto formateado
+   */
 
   formatAmount(amount: string): string {
     return new Intl.NumberFormat('es-CO', {
